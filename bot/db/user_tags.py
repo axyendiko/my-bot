@@ -1,7 +1,7 @@
 import datetime
 
 from aiogram import loggers
-from sqlalchemy import Column, Integer, VARCHAR, DateTime, BOOLEAN, ForeignKey, DATE,select
+from sqlalchemy import Column, Integer, VARCHAR, BigInteger, DateTime, BOOLEAN, ForeignKey, DATE,select
 from sqlalchemy.orm import relationship, Mapped, sessionmaker, selectinload
 
 from .base import Model,Base

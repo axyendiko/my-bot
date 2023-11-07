@@ -12,7 +12,7 @@ from .base import Base , Model  # type: ignore
 class User(Base, Model):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer,unique=True,nullable=True)
+    user_id = Column(BigInteger,unique=True,nullable=True)
     user_name = Column(VARCHAR(32), unique=True, nullable=False)
     role = Column(VARCHAR(32), nullable=False)
     is_active = Column(BOOLEAN, default=True)

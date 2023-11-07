@@ -9,7 +9,7 @@ from .base import Model,Base
 class Chats(Base, Model):
     __tablename__ = 'chats'
     id = Column(Integer, primary_key=True)
-    chat_id = Column(Integer,unique=True,nullable=False)
+    chat_id = Column(BigInteger,unique=True,nullable=False)
 
 async def create_chat(chat_id: int, session_maker: sessionmaker) -> None:
     async with session_maker() as session:
