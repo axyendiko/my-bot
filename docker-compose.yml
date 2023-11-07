@@ -13,7 +13,7 @@ services:
       POSTGRES_DB: sxodim
     restart: on-failure
     ports:
-      - "5433:5433"
+      - "6543:5432"
   bot:
     build: .
     command: sh -c "python -m bot"
