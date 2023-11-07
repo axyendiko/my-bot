@@ -26,5 +26,5 @@ async def create_chat(chat_id: int, session_maker: sessionmaker) -> None:
 async def getChatById(chat_id: int, session_maker: sessionmaker)->object:
     async with session_maker() as session:
         async with session.begin():
-            result = await session.scalar(select(Chats).where(Chats.id == chat_id))
+            result = await session.scalar(select(Chats).where(Chats.chat_id == chat_id))
             return result
