@@ -15,7 +15,7 @@ async def main()->None:
         "postgresql+asyncpg",
         username=os.getenv('db_user_name'),
         password=os.getenv('db_password'),
-        host='0.0.0.0',
+        host='db',
         database=os.getenv('db_name'),
         port=os.getenv('db_port'),
     )
