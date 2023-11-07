@@ -12,7 +12,7 @@ class UserTags(Base, Model):
     user_id = Column(Integer, ForeignKey('users.id'))
     chat_id = Column(Integer, ForeignKey('chats.id'))
     user = relationship("User",back_populates="user_tags")
-    chat = relationship("Chat",back_populates="user_tags")
+    chat = relationship("Chats",back_populates="user_tags")
 
     def __init__(self, user_id, chat_id):
         self.user_id = user_id
