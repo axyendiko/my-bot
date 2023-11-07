@@ -10,7 +10,7 @@ async def tag_user(message:types.Message, session_maker: sessionmaker)->None:
     try:
         chat = await getChatById(chat_id=message.chat.id)
     except:
-        await message.answer(text='This chat sucks')
+        await message.answer(text=f'This chat sucks, {message.chat.id}')
         return
     if message.chat.id == chat.id:
         try:
