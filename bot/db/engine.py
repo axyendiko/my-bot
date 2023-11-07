@@ -15,7 +15,7 @@ def create_async_engine(url: Union[URL, str]) -> sqlalchemy.ext.asyncio.AsyncEng
     :param url:
     :return:
     """
-    return _create_async_engine(url=url, echo=True, pool_pre_ping=True)
+    return _create_async_engine(url=url, echo=True,encoding='utf-8', pool_pre_ping=True)
 
 
 async def proceed_schemas(engine: sqlalchemy.ext.asyncio.AsyncEngine, metadata: MetaData) -> None:
