@@ -8,7 +8,7 @@ from bot.db.user_tags import get_last_tag, create_tag, get_tag_by_id
 
 async def tag_user(message:types.Message, session_maker: sessionmaker)->None:
     try:
-        chat = await getChatById(chat_id=message.chat.id)
+        chat = await getChatById(chat_id=message.chat.id, session_maker=session_maker)
     except:
         await message.answer(text=f'This chat sucks, {message.chat.id}')
         return
