@@ -9,8 +9,9 @@ from bot.db.user_tags import get_last_tag, create_tag, get_tag_by_id
 async def tag_user(message:types.Message, session_maker: sessionmaker)->None:
     try:
         chat = await getChatById(chat_id=int(message.chat.id), session_maker=session_maker)
-    except:
+    except Exception as e:
         await message.answer(text=f'This chat sucks, {message.chat.id}')
+        loggers.dispatcher.info(f'{e} ERROR')
         return
     if message.chat.id == chat.id:
         try:
