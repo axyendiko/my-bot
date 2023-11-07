@@ -2,12 +2,17 @@ from aiogram import types, loggers
 from aiogram.fsm.context import FSMContext
 from sqlalchemy.orm import sessionmaker
 
-from bot.db import get_active_cooperators, get_all_cooperators
+from bot.db import get_active_cooperators, get_all_cooperators, getChatById
 from bot.db.user_tags import get_last_tag, create_tag, get_tag_by_id
 
 
 async def tag_user(message:types.Message, session_maker: sessionmaker)->None:
-    if message.chat.id == -4066234169:
+    try:
+        chat = await getChatById(chat_id=message.chat.id)
+    except:
+        await message.answer(text='This chat sucks')
+        return
+    if message.chat.id == chat.id:
         try:
             activeCooperators = await get_active_cooperators(session_maker=session_maker)
             lastTaggedUser = await get_last_tag(session_maker=session_maker)
@@ -15,7 +20,7 @@ async def tag_user(message:types.Message, session_maker: sessionmaker)->None:
             nearest_id = find_nearest_greater_value(activeCooperatorsIds, lastTaggedUser.user.id)
             user = await getEntry(activeCooperators, nearest_id)
             await message.answer(text=f'@{user.user_name}')
-            await create_tag(user_id=user.id, session_maker=session_maker)
+            await create_tag(user_id=user.id, chat_id=chat.id, session_maker=session_maker)
         except Exception as e:
             loggers.dispatcher.debug(e)
             await message.answer(text="sorry, try again")

@@ -10,10 +10,13 @@ class UserTags(Base, Model):
     __tablename__ = 'user_tags'
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
+    chat_id = Column(Integer, ForeignKey('chats.id'))
     user = relationship("User",back_populates="user_tags")
+    chat = relationship("Chat",back_populates="user_tags")
 
-    def __init__(self, user_id):
+    def __init__(self, user_id, chat_id):
         self.user_id = user_id
+        self.chat_id = chat_id
 
 async def get_last_tag(session_maker: sessionmaker):
 
@@ -30,11 +33,12 @@ async def get_tag_by_id(id: int,session_maker: sessionmaker):
             return result
 
 
-async def create_tag(user_id: int, session_maker:sessionmaker):
+async def create_tag(user_id: int,chat_id: int, session_maker:sessionmaker):
     async with session_maker() as session:
         async with session.begin():
             userTag = UserTags(
-                user_id = user_id
+                user_id = user_id,
+                chat_id= chat_id
             )
             try:
                 session.add(userTag)
