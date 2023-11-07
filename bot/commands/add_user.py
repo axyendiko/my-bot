@@ -4,7 +4,7 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from sqlalchemy.orm import sessionmaker
 
-from bot.db import create_user
+from bot.db import create_user,getUserById
 
 
 class AddUserState(StatesGroup):
@@ -13,9 +13,13 @@ class AddUserState(StatesGroup):
     update_name = State()
     finish = State()
 
-async def add_user_start(call:types.CallbackQuery, state: FSMContext)->None:
-    await state.set_state(AddUserState.user_name)
-    await call.message.answer(text='Enter user name from telegram(without "@"):')
+async def add_user_start(call:types.CallbackQuery, state: FSMContext,session_maker:sessionmaker)->None:
+    user = await getUserById(user_id=int(call.message.from_user.id), session_maker=session_maker)
+    if user and user.role == 'administrator':
+        await state.set_state(AddUserState.user_name)
+        await call.message.answer(text='Enter user name from telegram(without "@"):')
+    else:
+        await call.message.answer(text='gotcha, bitch')
 
 async def add_user_name(message:types.Message, state: FSMContext)->None:
     await state.update_data(user_name=message.text)
