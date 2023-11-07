@@ -20,7 +20,7 @@ async def tag_user(message:types.Message, session_maker: sessionmaker)->None:
             loggers.dispatcher.debug(e)
             await message.answer(text="sorry, try again")
     else:
-        await message.answer(text='У тебя нет прав')
+        await message.answer(text=f'У тебя нет прав {message.chat.id}')
 def find_nearest_greater_value(lst, target):
     lst = list(lst)
     nearest_greater = None
