@@ -13,7 +13,7 @@ async def tag_user(message:types.Message, session_maker: sessionmaker)->None:
         await message.answer(text=f'This chat sucks, {message.chat.id}')
         loggers.dispatcher.info(f'{e} ERROR')
         return
-    if message.chat.id == chat.id:
+    if chat and message.chat.id == chat.id:
         try:
             activeCooperators = await get_active_cooperators(session_maker=session_maker)
             lastTaggedUser = await get_last_tag(session_maker=session_maker)
