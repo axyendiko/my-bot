@@ -1,3 +1,5 @@
+import time
+
 import os
 import asyncio
 import sys
@@ -11,7 +13,7 @@ load_dotenv()
 from .commands import register_commands
 from .db import *
 async def main()->None:
-    postgres_url = 'postgresql+asyncpg://postgres:123456789@db:5433?sslmode=disable'
+    postgres_url = 'postgresql+asyncpg://postgres:123456789@db:5433/sxodim'
     sys.path.append("..")
     loggers.dispatcher.info(postgres_url)
     print(postgres_url)
@@ -20,7 +22,11 @@ async def main()->None:
     bot = Bot(token=os.getenv('TOKEN'))
 
     register_commands(dp)
-    async_engine = create_async_engine(postgres_url)
+    try:
+        async_engine = create_async_engine(postgres_url)
+    except:
+        time.sleep(10)
+        async_engine = create_async_engine(postgres_url)
     session_maker = get_session_maker(async_engine)
     await proceed_schemas(async_engine, Base.metadata)
     await dp.start_polling(bot,session_maker=session_maker)
