@@ -13,7 +13,7 @@ async def tag_user(message:types.Message, session_maker: sessionmaker)->None:
         await message.answer(text=f'This chat sucks, {message.chat.id}')
         loggers.dispatcher.info(f'{e} ERROR')
         return
-    if chat and message.chat.id == chat.id:
+    if chat is not None and message.chat.id == chat.id:
         try:
             activeCooperators = await get_active_cooperators(session_maker=session_maker)
             lastTaggedUser = await get_last_tag(session_maker=session_maker)
@@ -26,6 +26,7 @@ async def tag_user(message:types.Message, session_maker: sessionmaker)->None:
             loggers.dispatcher.debug(e)
             await message.answer(text="sorry, try again")
     else:
+        loggers.dispatcher.info(chat)
         await message.answer(text=f'У тебя нет прав {message.chat.id}')
 def find_nearest_greater_value(lst, target):
     lst = list(lst)
