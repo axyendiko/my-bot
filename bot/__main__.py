@@ -11,7 +11,7 @@ load_dotenv()
 from .commands import register_commands
 from .db import *
 async def main()->None:
-    postgres_url = 'postgresql+asyncpg://postgres:123456789@db:5433'
+    postgres_url = 'postgresql+asyncpg://postgres:123456789@db:5433?sslmode=disable'
     sys.path.append("..")
     loggers.dispatcher.info(postgres_url)
     print(postgres_url)
