@@ -9,6 +9,7 @@ from .set_user_inactive import SetUserInactive, set_inactive_function, set_inact
 from .start import start
 from bot.middlewares.check_user import UserCheck
 from .tag_user import tag_user
+from .add_chat import add_chat, AddChatState, save_chat_id
 
 
 def register_commands(router: Router) -> None:
@@ -23,3 +24,5 @@ def register_commands(router: Router) -> None:
     router.callback_query.register(set_inactive_function, F.data.startswith('set_inactive:'), SetUserInactive.set_inactive)
     router.callback_query.register(finish, F.data.startswith('update:'), AddUserState.finish)
     router.message.register(tag_user, Command(commands=['tag']))
+    router.message.register(add_chat, Command(commands=['chat']))
+    router.message.register(save_chat_id, AddChatState.add_chat)
