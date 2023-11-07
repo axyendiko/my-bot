@@ -24,9 +24,9 @@ async def proceed_schemas(engine: sqlalchemy.ext.asyncio.AsyncEngine, metadata: 
     :param engine:
     :param metadata:
     """
-    # async with engine.begin() as conn:
-    #     await conn.run_sync(metadata.create_all)
-    # ...
+    async with engine.begin() as conn:
+        await conn.run_sync(metadata.create_all)
+    ...
 
 
 def get_session_maker(engine: sqlalchemy.ext.asyncio.AsyncEngine) -> sessionmaker:
