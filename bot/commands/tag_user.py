@@ -18,7 +18,10 @@ async def tag_user(message:types.Message, session_maker: sessionmaker)->None:
             activeCooperators = await get_active_cooperators(session_maker=session_maker)
             lastTaggedUser = await get_last_tag(session_maker=session_maker)
             activeCooperatorsIds = list(map(get_users_ids, activeCooperators))
-            nearest_id = find_nearest_greater_value(activeCooperatorsIds, lastTaggedUser.user.id)
+            if lastTaggedUser is None:
+                nearest_id = activeCooperatorsIds[0]
+            else:
+                nearest_id = find_nearest_greater_value(activeCooperatorsIds, lastTaggedUser.user.id)
             user = await getEntry(activeCooperators, nearest_id)
             await message.answer(text=f'@{user.user_name}')
             await create_tag(user_id=user.id, chat_id=chat.id, session_maker=session_maker)
