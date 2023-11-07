@@ -12,13 +12,13 @@ services:
     restart: on-failure
     ports:
       - "5433:5433"
-    healthcheck:
-          test: [ "CMD-SHELL", "curl -f http://db:5433" ]
-          interval: 5s
-          timeout: 5s
-          retries: 5
   bot:
     build: .
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://db:5433" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     command: sh -c "python -m bot"
     env_file:
       - ./.env
