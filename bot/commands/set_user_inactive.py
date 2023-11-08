@@ -28,6 +28,7 @@ async def set_inactive_command(message:types.Message, session_maker: sessionmake
         await message.answer(text='gotcha, bitch')
 
 async def set_inactive_function(call:types.CallbackQuery, session_maker: sessionmaker, state: FSMContext)->None:
+    await call.message.delete()
     user_name = call.data.split(':')[1]
     try:
         user = await set_user_inactive(user_name=user_name, session_maker=session_maker)

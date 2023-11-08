@@ -29,6 +29,7 @@ async def set_active_command(message:types.Message, session_maker: sessionmaker,
         await message.answer(text='gotcha, bitch')
 
 async def set_active_function(call:types.CallbackQuery, session_maker: sessionmaker, state: FSMContext)->None:
+    await call.message.delete()
     user_name = call.data.split(':')[1]
     try:
         user = await set_user_active(user_name=user_name, session_maker=session_maker)
