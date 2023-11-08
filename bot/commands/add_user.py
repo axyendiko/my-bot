@@ -14,8 +14,7 @@ class AddUserState(StatesGroup):
     finish = State()
 
 async def add_user_start(call:types.CallbackQuery, state: FSMContext,session_maker:sessionmaker)->None:
-    await call.message.answer(text=f"{call.message.chat.id}")
-    user = await getUserById(user_id=int(call.message.from_user.id), session_maker=session_maker)
+    user = await getUserById(user_id=int(call.message.chat.id), session_maker=session_maker)
     if user and user.role == 'administrator':
         await state.set_state(AddUserState.user_name)
         await call.message.answer(text='Enter user name from telegram(without "@"):')
