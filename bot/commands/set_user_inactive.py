@@ -22,7 +22,7 @@ async def set_inactive_command(message:types.Message, session_maker: sessionmake
         for user in users:
             builder.button(text=f'{user.user_name}', callback_data=f'set_inactive:{user.user_name}')
         builder.adjust(1)
-        await message.answer(text=f'select user to set active', reply_markup=builder.as_markup())
+        await message.answer(text=f'Выберите пользователя чтобы включить его', reply_markup=builder.as_markup())
         await state.set_state(SetUserInactive.set_inactive)
     else:
         await message.answer(text='gotcha, bitch')
@@ -35,4 +35,4 @@ async def set_inactive_function(call:types.CallbackQuery, session_maker: session
         await call.message.answer('sorry, try again')
         return
 
-    await call.message.answer(text='success')
+    await call.message.answer(text='Успешно Қосылған')
