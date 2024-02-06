@@ -18,7 +18,7 @@ class User(Base, Model):
     role = Column(VARCHAR(32), nullable=False)
     is_active = Column(BOOLEAN, default=True)
     user_tags = relationship("UserTags",back_populates="user")
-    chat_id = Column(Integer, ForeignKey('chats.id'))
+    chat_id = Column(Integer,ForeignKey('chats.id'))
     chat = relationship("Chats", back_populates="chats")
 
 
@@ -79,6 +79,7 @@ async def get_all_cooperators(session_maker: sessionmaker):
         async with session.begin():
             sql_res = await session.scalars(select(User).where(User.role == 'copywriter'))
             return sql_res
+
 
 async def get_inactive_cooperators(chat_id: int, session_maker: sessionmaker):
     async with session_maker() as session:
