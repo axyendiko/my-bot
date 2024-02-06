@@ -14,7 +14,7 @@ async def tag_user(message:types.Message, session_maker: sessionmaker)->None:
         return
     if chat is not None and message.chat.id == chat.chat_id:
         try:
-            activeCooperators = await get_active_cooperators(session_maker=session_maker)
+            activeCooperators = await get_active_cooperators(chat_id=chat.id, session_maker=session_maker)
             lastTaggedUser = await get_last_tag(session_maker=session_maker)
             activeCooperatorsIds = list(map(get_users_ids, activeCooperators))
             if lastTaggedUser is None:

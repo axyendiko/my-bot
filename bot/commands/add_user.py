@@ -16,6 +16,7 @@ class AddUserState(StatesGroup):
 async def add_user_start(call:types.CallbackQuery, state: FSMContext,session_maker:sessionmaker)->None:
     user = await getUserById(user_id=int(call.message.chat.id), session_maker=session_maker)
     if user and user.role == 'administrator':
+        await state.update_data(chat_id=user.chat_id)
         await state.set_state(AddUserState.user_name)
         await call.message.answer(text='Введите имя пользователя telegram без @')
     else:
@@ -47,7 +48,7 @@ async def finish(call:types.CallbackQuery,session_maker:sessionmaker, state:FSMC
     await call.message.delete()
     if call.data.split(':')[1] == 'False':
         try:
-            await create_user(user_id=call.from_user.id,user_name=data['user_name'],role=data['role'],session_maker=session_maker)
+            await create_user(user_id=call.from_user.id,user_name=data['user_name'],role=data['role'],chat_id=data['chat_id'],session_maker=session_maker)
             await call.message.answer(text='Пользователь создан')
             await state.clear()
         except:

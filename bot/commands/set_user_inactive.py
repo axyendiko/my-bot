@@ -14,7 +14,7 @@ async def set_inactive_command(message:types.Message, session_maker: sessionmake
     user = await getUserById(user_id=int(message.from_user.id), session_maker=session_maker)
     if user and user.role == 'administrator':
         try:
-            users = await get_active_cooperators(session_maker=session_maker)
+            users = await get_active_cooperators(chat_id=user.chat_id, session_maker=session_maker)
         except Exception as e:
             await message.answer('sorry, try again')
             return

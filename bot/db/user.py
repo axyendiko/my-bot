@@ -2,11 +2,12 @@ import datetime
 from typing import List
 
 from aiogram import loggers
-from sqlalchemy import Column, Integer, VARCHAR, select, BigInteger, Enum, DATE, BOOLEAN, update  # type: ignore
+from sqlalchemy import Column, Integer, VARCHAR, select, BigInteger, Enum, DATE, BOOLEAN, update, ForeignKey  # type: ignore
 from sqlalchemy.exc import ProgrammingError
 from sqlalchemy.orm import sessionmaker, relationship, selectinload, Mapped  # type: ignore
 
 from bot.db.user_tags import UserTags
+from bot.db.chats import Chats
 from .base import Base , Model  # type: ignore
 
 class User(Base, Model):
@@ -17,6 +18,8 @@ class User(Base, Model):
     role = Column(VARCHAR(32), nullable=False)
     is_active = Column(BOOLEAN, default=True)
     user_tags = relationship("UserTags",back_populates="user")
+    chat_id = Column(Integer, ForeignKey('chats.id'))
+    chat = relationship("Chats", back_populates="chats")
 
 
 async def get_user(user_id: int, session_maker: sessionmaker) -> User:
@@ -41,12 +44,13 @@ async def get_user_by_name(user_name: str, session_maker: sessionmaker) -> User:
 
 
 
-async def create_user(user_id: int, user_name: str, role: str, session_maker: sessionmaker) -> None:
+async def create_user(user_id: int, user_name: str, role: str,chat_id: int, session_maker: sessionmaker) -> None:
     async with session_maker() as session:
         async with session.begin():
             user = User(
                 user_name=user_name,
                 role=role,
+                chat_id=chat_id,
             )
             try:
                 session.add(user)
@@ -64,10 +68,10 @@ async def is_user_exists(user_id: int, session_maker: sessionmaker) -> bool:
             sql_res = await session.execute(select(User).where(User.user_id == user_id))
             return bool(sql_res)
 
-async def get_active_cooperators(session_maker: sessionmaker):
+async def get_active_cooperators(chat_id: int, session_maker: sessionmaker):
     async with session_maker() as session:
         async with session.begin():
-            sql_res = await session.scalars(select(User).where(User.role == 'copywriter').order_by(User.id).where(User.is_active == True))
+            sql_res = await session.scalars(select(User).where(User.role == 'copywriter').where(User.chat_id == chat_id).order_by(User.id).where(User.is_active == True))
             return sql_res.fetchall()
 
 async def get_all_cooperators(session_maker: sessionmaker):
@@ -76,10 +80,10 @@ async def get_all_cooperators(session_maker: sessionmaker):
             sql_res = await session.scalars(select(User).where(User.role == 'copywriter'))
             return sql_res
 
-async def get_inactive_cooperators(session_maker: sessionmaker):
+async def get_inactive_cooperators(chat_id: int, session_maker: sessionmaker):
     async with session_maker() as session:
         async with session.begin():
-            sql_res = await session.execute(select(User).where(User.role == 'copywriter').where(User.is_active == False))
+            sql_res = await session.execute(select(User).where(User.role == 'copywriter').where(User.chat_id == chat_id).where(User.is_active == False))
             return sql_res.scalars()
 
 async def set_user_active(user_name: str ,session_maker: sessionmaker):
