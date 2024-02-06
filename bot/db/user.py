@@ -19,7 +19,7 @@ class User(Base, Model):
     is_active = Column(BOOLEAN, default=True)
     user_tags = relationship("UserTags",back_populates="user")
     chat_id = Column(Integer,ForeignKey('chats.id'))
-    chat = relationship("Chats", back_populates="chats")
+    chat = relationship("Chats", back_populates="user")
 
 
 async def get_user(user_id: int, session_maker: sessionmaker) -> User:
