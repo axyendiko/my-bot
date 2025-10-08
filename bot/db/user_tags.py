@@ -8,18 +8,27 @@ from .base import Model,Base
 
 class UserTags(Base, Model):
     __tablename__ = 'user_tags'
+    
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
-    user = relationship("User",back_populates="user_tags")
-
-    def __init__(self, user_id):
+    chat_id = Column(BigInteger, nullable=False)  # Добавить поле chat_id
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    
+    user = relationship("User", back_populates="user_tags")
+    
+    def __init__(self, user_id, chat_id):
         self.user_id = user_id
+        self.chat_id = chat_id
 
 async def get_last_tag(session_maker: sessionmaker):
-
     async with session_maker() as session:
         async with session.begin():
-            result = await session.scalar(select(UserTags).order_by(UserTags.id.desc()).options(selectinload(UserTags.user)))
+            result = await session.scalar(
+                select(UserTags)
+                .where(UserTags.chat_id == chat_id)
+                .order_by(UserTags.id.desc())
+                .options(selectinload(UserTags.user))
+            )
             return result
 
 async def get_tag_by_id(id: int,session_maker: sessionmaker):
