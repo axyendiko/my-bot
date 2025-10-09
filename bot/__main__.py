@@ -11,7 +11,7 @@ load_dotenv()
 from .commands import register_commands
 from .db import *
 async def main()->None:
-    postgres_url = "postgresql+asyncpg://postgres:mysecretpassword@localhost:5433/sxodim"
+    postgres_url = "postgresql+asyncpg://postgres:mysecretpassword@db/sxodim"
     sys.path.append("..")
     loggers.dispatcher.info(postgres_url)
     print(postgres_url)
