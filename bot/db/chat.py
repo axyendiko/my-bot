@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, BigInteger, DateTime, Sequence
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
+from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
 
