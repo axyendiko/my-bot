@@ -15,7 +15,7 @@ async def tag_user(message:types.Message, session_maker: sessionmaker)->None:
         activeCooperatorsIds = list(map(get_users_ids, activeCooperators))
         nearest_id = find_nearest_greater_value(activeCooperatorsIds, lastTaggedUser.user.id)
         user = await getEntry(activeCooperators, nearest_id)
-        await message.answer(text=f'@{user.user_name} {str chatId}')
+        await message.answer(text=f'@{user.user_name} {str(chatId)}')
         await create_tag(user_id=user.id, session_maker=session_maker)
     except Exception as e:
         loggers.dispatcher.debug(e)
