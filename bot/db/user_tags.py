@@ -48,6 +48,3 @@ async def create_tag(user_id: int, chat_id: int, session_maker: sessionmaker):
         async with session.begin():
             user_tag = UserTags(user_id=user_id, chat_id=chat_id)  # Убедитесь, что оба поля передаются
             session.add(user_tag)  # Добавляем объект в сессию
-            await session.commit()  # Асинхронно сохраняем изменения в базе данных
-            await session.refresh(user_tag)  # Обновляем объект, чтобы получить его id
-            return user_tag.id  # Возвращаем id нового тега
