@@ -64,10 +64,10 @@ async def is_user_exists(user_id: int, session_maker: sessionmaker) -> bool:
             sql_res = await session.execute(select(User).where(User.user_id == user_id))
             return bool(sql_res)
 
-async def get_active_cooperators(session_maker: sessionmaker):
+async def get_active_cooperators(chat_id: int, session_maker: sessionmaker):
     async with session_maker() as session:
         async with session.begin():
-            sql_res = await session.scalars(select(User).where(User.role == 'copywriter').order_by(User.id).where(User.is_active == True))
+            sql_res = await session.scalars(select(User).where(User.role == 'copywriter').where(User.chat_id == chat_id).order_by(User.id).where(User.is_active == True))
             return sql_res.fetchall()
 
 async def get_all_cooperators(session_maker: sessionmaker):
