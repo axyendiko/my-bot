@@ -11,7 +11,7 @@ class UserTags(Base, Model):
     
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
-    chat_id = Column(BigInteger, nullable=False)  # Добавить поле chat_id
+    chat_id = Column(Integer, nullable=False)  # Добавить поле chat_id
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     
     user = relationship("User", back_populates="user_tags")
@@ -20,7 +20,7 @@ class UserTags(Base, Model):
         self.user_id = user_id
         self.chat_id = chat_id
 
-async def get_last_tag(session_maker: sessionmaker):
+async def get_last_tag(chat_id: int, session_maker: sessionmaker):
     async with session_maker() as session:
         async with session.begin():
             result = await session.scalar(
@@ -36,6 +36,7 @@ async def get_tag_by_id(id: int,session_maker: sessionmaker):
     async with session_maker() as session:
         async with session.begin():
             result = await session.scalar(select(UserTags).where(UserTags.id == id).order_by(UserTags.id.desc()).options(selectinload(UserTags.user)))
+        
             return result
 
 
