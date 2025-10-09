@@ -7,6 +7,7 @@ from sqlalchemy.exc import ProgrammingError
 from sqlalchemy.orm import sessionmaker, relationship, selectinload, Mapped  # type: ignore
 
 from bot.db.user_tags import UserTags
+from bot.db.chat import Chat
 from .base import Base , Model  # type: ignore
 
 class User(Base, Model):
