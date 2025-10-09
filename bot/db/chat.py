@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, BigInteger, DateTime, Sequence
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from datetime import datetime
+from sqlalchemy.exc import NoResultFound
 
 
 Base = declarative_base()

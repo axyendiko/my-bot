@@ -1,6 +1,5 @@
 from aiogram import types, loggers
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm.exc import NoResultFound
 
 from bot.db import get_active_cooperators, get_all_cooperators
 from bot.db.user_tags import get_last_tag, create_tag, get_tag_by_id
