@@ -14,8 +14,6 @@ class UserTags(Base, Model):
     chat_id = Column(Integer, nullable=False)  # Добавить поле chat_id
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     
-    user = relationship("User", back_populates="user_tags")
-    
     def __init__(self, user_id, chat_id):
         self.user_id = user_id
         self.chat_id = chat_id
