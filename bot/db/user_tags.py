@@ -12,7 +12,7 @@ class UserTags(Base, Model):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))  # Здесь можно оставить ссылку на пользователя, если она нужна
     chat_id = Column(BigInteger, nullable=False)  # Убираем связь с User
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    creation_date = Column(DateTime, default=datetime.datetime.utcnow)
     
     def __init__(self, user_id, chat_id):
         self.user_id = user_id
