@@ -7,7 +7,7 @@ from bot.db.chat import getChatId
 
 
 async def tag_user(message:types.Message, session_maker: sessionmaker)->None:
-    chatId = getChatId(chatId=message.chat.id, session_maker=session_maker)
+    chatId = await getChatId(chatId=message.chat.id, session_maker=session_maker)
     try:
         activeCooperators = await get_active_cooperators(chatId ,session_maker=session_maker)
         lastTaggedUser = await get_last_tag(chatId, session_maker=session_maker)
