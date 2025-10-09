@@ -11,20 +11,13 @@ load_dotenv()
 from .commands import register_commands
 from .db import *
 async def main()->None:
-    postgres_url = URL.create(
-        "postgresql+asyncpg",
-        username=os.getenv('db_user_name'),
-        password=os.getenv('db_password'),
-        host='localhost',
-        database=os.getenv('db_name'),
-        port=os.getenv('db_port'),
-    )
+    postgres_url = "postgresql://postgres:mysecretpassword@localhost:5433/sxodim"
     sys.path.append("..")
     loggers.dispatcher.info(postgres_url)
     print(postgres_url)
     logging.basicConfig(level=logging.DEBUG)
     dp=Dispatcher()
-    bot = Bot(token=os.getenv('TOKEN'))
+    bot = Bot()
 
     register_commands(dp)
     async_engine = create_async_engine(postgres_url)
