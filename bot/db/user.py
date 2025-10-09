@@ -2,7 +2,7 @@ import datetime
 from typing import List
 
 from aiogram import loggers
-from sqlalchemy import Column, Integer, VARCHAR, select, BigInteger, Enum, DATE, BOOLEAN, update  # type: ignore
+from sqlalchemy import Column, Integer, VARCHAR, select, BigInteger, Enum, DATE, BOOLEAN, update, ForeignKey # type: ignore
 from sqlalchemy.exc import ProgrammingError
 from sqlalchemy.orm import sessionmaker, relationship, selectinload, Mapped  # type: ignore
 
@@ -17,8 +17,9 @@ class User(Base, Model):
     user_name = Column(VARCHAR(32), unique=True, nullable=False)
     role = Column(VARCHAR(32), nullable=False)
     is_active = Column(BOOLEAN, default=True)
+    chat_id = Column(Integer, ForeignKey('chats.id'))
+    chat = relationship("Chat")
     user_tags = relationship("UserTags",back_populates="user")
-    chat_id = relationship("Chat", back_populates="users", uselist=False)
 
 async def get_user(user_id: int, session_maker: sessionmaker) -> User:
     async with session_maker() as session:
