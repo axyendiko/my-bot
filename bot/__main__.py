@@ -17,7 +17,7 @@ async def main()->None:
     print(postgres_url)
     logging.basicConfig(level=logging.DEBUG)
     dp=Dispatcher()
-    bot = Bot()
+    bot = Bot(token=os.getenv('TOKEN'))
 
     register_commands(dp)
     async_engine = create_async_engine(postgres_url)
