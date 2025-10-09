@@ -1,7 +1,8 @@
 from sqlalchemy import Column, Integer, BigInteger, DateTime, Sequence
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, sessionmaker
 from datetime import datetime
-from sqlalchemy.orm import sessionmaker
+
 
 Base = declarative_base()
 
@@ -12,6 +13,7 @@ class Chat(Base):
     chat_id = Column(BigInteger, nullable=False)
     creation_date = Column(DateTime, default=datetime.utcnow, nullable=True)
     upd_date = Column(DateTime, default=None, onupdate=datetime.utcnow, nullable=True)
+    users = relationship("User", back_populates="chat")
 
 async def getChatId(chatId: int, session_maker: sessionmaker):
     async with session_maker() as session:
