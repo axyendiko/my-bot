@@ -27,7 +27,6 @@ async def get_last_tag(chat_id: int, session_maker: sessionmaker):
                 .where(UserTags.chat_id == chat_id)
                 .order_by(UserTags.id.desc())
                 .limit(1)  # Ограничиваем выборку только последним результатом
-                .options(selectinload(UserTags.user))  # Если нужно, можно добавить загрузку связанного пользователя
             )
             last_tag = result.scalars().first()  # Получаем первый (и единственный) результат
             return last_tag
@@ -39,7 +38,6 @@ async def get_tag_by_id(id: int, session_maker: sessionmaker):
             result = await session.execute(
                 select(UserTags)
                 .where(UserTags.id == id)
-                .options(selectinload(UserTags.user))  # Предзагрузка связанного пользователя
             )
             tag = result.scalars().first()  # Возвращаем первый (и единственный) результат
             return tag

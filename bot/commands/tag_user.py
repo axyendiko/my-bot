@@ -23,7 +23,7 @@ async def tag_user(message: types.Message, session_maker: sessionmaker) -> None:
         if not lastTaggedUser:
             await message.answer("No last tagged user found.")
             return
-
+        
         # Получаем IDs всех активных сотрудников
         activeCooperatorsIds = [user.id for user in activeCooperators]
         
