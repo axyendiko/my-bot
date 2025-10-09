@@ -30,7 +30,7 @@ async def main()->None:
     async_engine = create_async_engine(postgres_url)
     session_maker = get_session_maker(async_engine)
     await proceed_schemas(async_engine, Base.metadata)
-    await dp.start_polling(bot,session_maker=session_maker)
+    await dp.start_polling(bot,session_maker=session_maker,skip_updates=False)
 
 
 if __name__ == '__main__':
