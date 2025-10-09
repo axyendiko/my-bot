@@ -2,6 +2,8 @@ import datetime
 from aiogram import loggers
 from sqlalchemy import Column, Integer, BigInteger, DateTime, ForeignKey
 from sqlalchemy.orm import sessionmaker, selectinload
+from sqlalchemy import select
+
 from .base import Base, Model
 
 class UserTags(Base, Model):

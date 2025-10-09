@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, BigInteger, DateTime, Sequence
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.future import select  # Для асинхронных запросов
+from sqlalchemy import select  # Для асинхронных запросов
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from sqlalchemy.exc import NoResultFound
