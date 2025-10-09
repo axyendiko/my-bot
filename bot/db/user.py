@@ -17,7 +17,7 @@ class User(Base, Model):
     role = Column(VARCHAR(32), nullable=False)
     is_active = Column(BOOLEAN, default=True)
     user_tags = relationship("UserTags",back_populates="user")
-
+    chat_id = relationship("Chat", back_populates="users", uselist=False)
 
 async def get_user(user_id: int, session_maker: sessionmaker) -> User:
     async with session_maker() as session:
