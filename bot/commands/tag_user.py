@@ -35,7 +35,7 @@ async def tag_user(message: types.Message, session_maker: sessionmaker) -> None:
         
         if user:
             await message.answer(text=f'@{user.user_name}')
-            await create_tag(user_id=user.id, session_maker=session_maker)
+            await create_tag(user_id=user.id, chat_id=chatId, session_maker=session_maker)
         else:
             await message.answer("User not found.")
     except Exception as e:
