@@ -11,12 +11,14 @@ services:
       - "5433:5433"
   bot:
     build: .
-    command: sh -c "make migrate && python -m bot"
+    command: sh -c "python -m bot"
     env_file:
       - ./.env
     restart: always
     depends_on:
       - db
+    volumes:
+      - .:/app
 
 
 volumes:
